@@ -1,6 +1,6 @@
 import styles from './Post.module.css'
 
-export function Post(props) {
+export function Post() {
   return (
     <article className={styles.post}>
       <header>
@@ -26,10 +26,11 @@ export function Post(props) {
         <p>Fala galera 👋</p>
         <p>Acabei de subir mais um projeto no meu portifólio.</p>
         <p>
-          👉<a href=''>github.com/elioenays</a>
+          👉 <a href=''>github.com/elioenays</a>
         </p>
         <p>
-          <a href=''>#novo projeto #rocketseat #nodejs #react</a>
+          <a href=''>#novoprojeto</a> <a href=''>#rocketseat</a>{' '}
+          <a href=''>#nodejs</a> <a href=''>#react</a>
         </p>
       </div>
     </article>
