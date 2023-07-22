@@ -1,36 +1,51 @@
+import { format, formatDistanceToNow } from 'date-fns'
 import Avatar from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
+import { ptBR } from 'date-fns/locale'
 
-export function Post(props) {
+export function Post({ author, publishedAt, content }) {
+  const publishedDateFormated = format(
+    publishedAt,
+    "d 'de' LLLL 'as' HH:mm'h'",
+    { locale: ptBR },
+  )
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  })
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src='https://github.com/elioenays.png' />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Eli</strong>
-            <span>Full Stack Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
         <time
-          title='28 de Março as 10:51'
-          dateTime='2023-03-03 10:50:00'
+          title={publishedDateFormated}
+          dateTime={publishedAt.toISOString()}
         >
-          Publicado há 1h
+          {publishedDateRelativeToNow}
         </time>
       </header>
       <div className={styles.content}>
-        <p>Fala galera 👋</p>
-        <p>Acabei de subir mais um projeto no meu portifólio.</p>
-        <p>
-          👉 <a href=''>github.com/elioenays</a>
-        </p>
-        <p>
-          <a href=''>#novoprojeto</a> <a href=''>#rocketseat</a>{' '}
-          <a href=''>#nodejs</a> <a href=''>#react</a>
-        </p>
+        {content.map((line) => {
+          if (line.type === 'paragraph') {
+            return <p>{line.content}</p>
+          } else if (line.type === 'link') {
+            return (
+              <p>
+                <a href='#'>{line.content}</a>
+              </p>
+            )
+          }
+        })}
       </div>
 
       <form className={styles.comentForm}>
